@@ -9,13 +9,13 @@
                 </div>
 
                 <!-- search -->
-                <form class="search-form">
+                <div class="search-form">
                     <search 
                         :value="search"
                         placeholder="Enter GitHub login..."
                         @search="search = $event"/>
                     <button class="btn btnPrimary" @click="getRepos">Search</button>
-                </form>
+                </div>
 
                 <!-- user -->
                 <div class="user__wrapper" v-if="user.html_url">
@@ -97,7 +97,7 @@ export default {
     align-items: center;
 }
 
-form.search-form {
+.search-form {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -151,7 +151,7 @@ form.search-form {
 }
 
 @media screen and (max-width: 576px) {
-    form.search-form,
+    .search-form,
     .user__wrapper,
     .repo-list {
         width: 100%;
@@ -159,7 +159,7 @@ form.search-form {
 }
 
 @media screen and (max-width: 480px) {
-    form.search-form {
+    .search-form {
         justify-content: center;
 
         button {
