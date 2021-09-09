@@ -9,14 +9,13 @@
                 </div>
 
                 <!-- search -->
-                <search 
-                    :value="search"
-                    placeholder="Type username..."
-                    @search="search = $event"/>
-
-                <!-- buttons -->
-                <button v-if="!repos" class="btn btnPrimary" @click="getRepos">Search!</button>
-                <button v-else class="btn btnPrimary" @click="getRepos">Search again!</button>
+                <form class="search-form">
+                    <search 
+                        :value="search"
+                        placeholder="Enter GitHub login..."
+                        @search="search = $event"/>
+                    <button class="btn btnPrimary" @click="getRepos">Search</button>
+                </form>
 
                 <!-- user -->
                 <div class="user__wrapper" v-if="user.html_url">
@@ -37,7 +36,7 @@
                     <div class="repo-item" v-for="repo in repos" :key="repo.id">
                         <div class="repo-info">
                             <a class="link" target="_blank" :href="repo.html_url">{{ repo.name }}</a>
-                            <span>{{ repo.language }} 💡</span>
+                            <span v-if="repo.language">{{ repo.language }} 💡</span>
                         </div>
                     </div>
                 </div>
@@ -83,7 +82,7 @@ export default {
                     })
                     .catch(err => {
                         console.log(err)
-                        this.user = null
+                        this.user = []
                         this.error = 'Can`t find this user'
                     })
         }
@@ -98,14 +97,19 @@ export default {
     align-items: center;
 }
 
-button {
-    margin-top: 20px;
+form.search-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 500px;
 }
 
 .user__wrapper {
     display: flex;
     flex-wrap: wrap;
-    width: 450px;
+    align-items: center;
+    width: 500px;
     padding: 20px;
     margin-top: 40px;
     background: #fff;
@@ -119,7 +123,7 @@ button {
 }
 
 .user__info {
-    padding-left: 15px;
+    padding-left: 25px;
 }
 
 .user__info-name {
@@ -133,7 +137,7 @@ button {
 }
 
 .repo-list {
-    width: 450px;
+    width: 500px;
     margin: 30px 0;
 }
 
@@ -144,5 +148,52 @@ button {
     margin-bottom: 10px;
     padding: 10px 0;
     border-bottom: 1px solid #dbdbdb;
+}
+
+@media screen and (max-width: 576px) {
+    form.search-form,
+    .user__wrapper,
+    .repo-list {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    form.search-form {
+        justify-content: center;
+
+        button {
+            margin-top: 20px;
+        }
+    }
+
+    .wrapper__search {
+        width: 100%;
+    }
+
+    .user__wrapper {
+        justify-content: center;
+    }
+
+    .user__avatar {
+        width: 100%;
+        border-radius: 0;
+        text-align: center;
+
+        img {
+            width: 82px;
+            border-radius: 50%;
+        }
+    }
+
+    .user__info {
+        padding-left: 0;
+        padding-top: 15px;
+        text-align: center;
+    }
+
+    .repo-info {
+        font-size: 14px;
+    }
 }
 </style>
